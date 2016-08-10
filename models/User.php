@@ -547,7 +547,7 @@ class User extends \yii\mongodb\ActiveRecord implements IdentityInterface
                 $this->_profile->name = $this->username;
                 $this->_profile->user_id = $this->_id;
             }
-            $this->_profile->save(false);
+            $this->_profile->link('user', $this);
         }
     }
 

@@ -173,7 +173,7 @@ class Finder extends Object
      */
     public function findAccountById($id)
     {
-        return $this->accountQuery->where(['id' => $id])->one();
+        return $this->accountQuery->where(['_id' => self::createMongoId($id)])->one();
     }
 
     /**
@@ -200,7 +200,7 @@ class Finder extends Object
     public function findTokenByParams($userId, $code, $type)
     {
         return $this->findToken([
-            'user_id' => $userId,
+            'user_id' => self::createMongoId($userId),
             'code'    => $code,
             'type'    => $type,
         ])->one();
@@ -215,7 +215,15 @@ class Finder extends Object
      */
     public function findProfileById($id)
     {
-        return $this->findProfile(['user_id' => $id])->one();
+        return $this->findProfile(['user_id' => self::createMongoId($id)])->one();
+    }
+
+    public static function createMongoId($id)
+    {
+        if(!($id instanceof \MongoDB\BSON\ObjectID))
+            $id = new \MongoDB\BSON\ObjectID(trim($id));
+
+        return $id;
     }
 
     /**
