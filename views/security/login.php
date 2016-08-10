@@ -9,14 +9,14 @@
  * file that was distributed with this source code.
  */
 
-use dektrium\user\widgets\Connect;
+use andrew72ru\user\widgets\Connect;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /**
  * @var yii\web\View                   $this
- * @var dektrium\user\models\LoginForm $model
- * @var dektrium\user\Module           $module
+ * @var andrew72ru\user\models\LoginForm $model
+ * @var andrew72ru\user\Module           $module
  */
 
 $this->title = Yii::t('user', 'Sign in');

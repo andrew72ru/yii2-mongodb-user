@@ -4,7 +4,7 @@ $config = [
     'id'        => 'yii2-user-test',
     'basePath'  => dirname(__DIR__),
     'bootstrap' => [
-        'dektrium\user\Bootstrap',
+        'andrew72ru\user\Bootstrap',
     ],
     'extensions' => require(VENDOR_DIR.'/yiisoft/extensions.php'),
     'aliases' => [
@@ -15,7 +15,7 @@ $config = [
     ],
     'modules' => [
         'user' => [
-            'class' => 'dektrium\user\Module',
+            'class' => 'andrew72ru\user\Module',
             'admins' => ['user'],
         ],
     ],

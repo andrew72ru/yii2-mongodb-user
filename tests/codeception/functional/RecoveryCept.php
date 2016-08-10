@@ -1,12 +1,12 @@
 <?php
 
-/*use dektrium\user\tests\FunctionalTester;
+/*use andrew72ru\user\tests\FunctionalTester;
 use tests\codeception\_pages\RecoveryPage;
 use tests\codeception\_pages\LoginPage;
 use yii\helpers\Html;
 use yii\helpers\Url;
-use dektrium\user\models\User;
-use dektrium\user\models\Token;
+use andrew72ru\user\models\User;
+use andrew72ru\user\models\Token;
 
 $I = new FunctionalTester($scenario);
 $I->wantTo('ensure that password recovery works');

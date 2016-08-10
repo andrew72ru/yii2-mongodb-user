@@ -9,17 +9,17 @@
  * file that was distributed with this source code.
  */
 
-namespace dektrium\user\commands;
+namespace andrew72ru\user\commands;
 
-use dektrium\user\models\User;
-use Yii;
+use andrew72ru\user\models\User;
 use yii\console\Controller;
 use yii\helpers\Console;
+use Yii;
 
 /**
  * Creates new user account.
  *
- * @property \dektrium\user\Module $module
+ * @property \andrew72ru\user\Module $module
  *
  * @author Dmitry Erofeev <dmeroff@gmail.com>
  */
@@ -30,26 +30,31 @@ class CreateController extends Controller
      * After saving user to database, this command uses mailer component to send credentials (username and password) to
      * user via email.
      *
-     * @param string      $email    Email address
-     * @param string      $username Username
+     * @param string $email Email address
+     * @param string $username Username
      * @param null|string $password Password (if null it will be generated automatically)
      */
     public function actionIndex($email, $username, $password = null)
     {
+        /** @var User $user */
         $user = Yii::createObject([
-            'class'    => User::className(),
+            'class' => User::className(),
             'scenario' => 'create',
-            'email'    => $email,
+            'email' => $email,
             'username' => $username,
             'password' => $password,
         ]);
 
-        if ($user->create()) {
+        if ($user->create())
+        {
             $this->stdout(Yii::t('user', 'User has been created') . "!\n", Console::FG_GREEN);
-        } else {
+        } else
+        {
             $this->stdout(Yii::t('user', 'Please fix following errors:') . "\n", Console::FG_RED);
-            foreach ($user->errors as $errors) {
-                foreach ($errors as $error) {
+            foreach ($user->errors as $errors)
+            {
+                foreach ($errors as $error)
+                {
                     $this->stdout(' - ' . $error . "\n", Console::FG_RED);
                 }
             }

@@ -1,12 +1,12 @@
 <?php
 
-namespace dektrium\user\tests;
+namespace andrew72ru\user\tests;
 
 use Codeception\Specify;
-use dektrium\user\helpers\Password;
-use dektrium\user\models\RegistrationForm;
-use dektrium\user\models\Token;
-use dektrium\user\models\User;
+use andrew72ru\user\helpers\Password;
+use andrew72ru\user\models\RegistrationForm;
+use andrew72ru\user\models\Token;
+use andrew72ru\user\models\User;
 use tests\codeception\_fixtures\UserFixture;
 use yii\codeception\TestCase;
 

@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace dektrium\user\traits;
+namespace andrew72ru\user\traits;
 
 use yii\base\Model;
 use yii\web\Response;

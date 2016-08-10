@@ -9,23 +9,24 @@
  * file that was distributed with this source code.
  */
 
-namespace dektrium\user\models;
+namespace andrew72ru\user\models;
 
-use dektrium\user\traits\ModuleTrait;
+use andrew72ru\user\traits\ModuleTrait;
 use Yii;
-use yii\db\ActiveRecord;
 use yii\helpers\Url;
+use yii\mongodb\ActiveRecord;
 
 /**
  * Token Active Record model.
  *
+ * @property integer $id
  * @property integer $user_id
- * @property string  $code
+ * @property string $code
  * @property integer $created_at
  * @property integer $type
- * @property string  $url
- * @property bool    $isExpired
- * @property User    $user
+ * @property string $url
+ * @property bool $isExpired
+ * @property User $user
  *
  * @author Dmitry Erofeev <dmeroff@gmail.com>
  */
@@ -33,17 +34,44 @@ class Token extends ActiveRecord
 {
     use ModuleTrait;
 
-    const TYPE_CONFIRMATION      = 0;
-    const TYPE_RECOVERY          = 1;
+    const TYPE_CONFIRMATION = 0;
+    const TYPE_RECOVERY = 1;
     const TYPE_CONFIRM_NEW_EMAIL = 2;
     const TYPE_CONFIRM_OLD_EMAIL = 3;
+
+    /** @inheritdoc */
+    public static function collectionName()
+    {
+        return ['autoglass', 'account'];
+    }
+
+    /** @inheritdoc */
+    public static function primaryKey()
+    {
+        return ['user_id', 'code', 'type'];
+    }
+
+    /** @inheritdoc */
+    public function attributes()
+    {
+        return [
+            '_id',
+            'id',
+            'user_id',
+            'code',
+            'created_at',
+            'type',
+            'url',
+            'isExpired'
+        ];
+    }
 
     /**
      * @return \yii\db\ActiveQuery
      */
     public function getUser()
     {
-        return $this->hasOne($this->module->modelMap['User'], ['id' => 'user_id']);
+        return $this->hasOne($this->module->modelMap['User'], ['_id' => 'user_id']);
     }
 
     /**
@@ -51,7 +79,8 @@ class Token extends ActiveRecord
      */
     public function getUrl()
     {
-        switch ($this->type) {
+        switch ($this->type)
+        {
             case self::TYPE_CONFIRMATION:
                 $route = '/user/registration/confirm';
                 break;
@@ -74,7 +103,8 @@ class Token extends ActiveRecord
      */
     public function getIsExpired()
     {
-        switch ($this->type) {
+        switch ($this->type)
+        {
             case self::TYPE_CONFIRMATION:
             case self::TYPE_CONFIRM_NEW_EMAIL:
             case self::TYPE_CONFIRM_OLD_EMAIL:
@@ -90,27 +120,26 @@ class Token extends ActiveRecord
         return ($this->created_at + $expirationTime) < time();
     }
 
+    public function beforeValidate()
+    {
+        if($this->isNewRecord)
+            $this->id = (int) self::find()->max('id') + 1;
+
+        $this->id = (int) $this->id;
+
+        return parent::beforeValidate();
+    }
+
     /** @inheritdoc */
     public function beforeSave($insert)
     {
-        if ($insert) {
+        if ($insert)
+        {
             static::deleteAll(['user_id' => $this->user_id, 'type' => $this->type]);
             $this->setAttribute('created_at', time());
             $this->setAttribute('code', Yii::$app->security->generateRandomString());
         }
 
         return parent::beforeSave($insert);
-    }
-
-    /** @inheritdoc */
-    public static function tableName()
-    {
-        return '{{%token}}';
-    }
-
-    /** @inheritdoc */
-    public static function primaryKey()
-    {
-        return ['user_id', 'code', 'type'];
     }
 }

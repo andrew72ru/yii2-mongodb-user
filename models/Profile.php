@@ -9,37 +9,66 @@
  * file that was distributed with this source code.
  */
 
-namespace dektrium\user\models;
+namespace andrew72ru\user\models;
 
-use dektrium\user\traits\ModuleTrait;
-use yii\db\ActiveRecord;
+use andrew72ru\user\traits\ModuleTrait;
+use yii\mongodb\ActiveRecord;
 
 /**
  * This is the model class for table "profile".
  *
+ * @property integer $id
  * @property integer $user_id
- * @property string  $name
- * @property string  $public_email
- * @property string  $gravatar_email
- * @property string  $gravatar_id
- * @property string  $location
- * @property string  $website
- * @property string  $bio
- * @property string  $timezone
- * @property User    $user
+ * @property string $name
+ * @property string $public_email
+ * @property string $gravatar_email
+ * @property string $gravatar_id
+ * @property string $location
+ * @property string $website
+ * @property string $bio
+ * @property string $timezone
+ * @property User $user
  *
  * @author Dmitry Erofeev <dmeroff@gmail.com
  */
 class Profile extends ActiveRecord
 {
     use ModuleTrait;
-    /** @var \dektrium\user\Module */
+    /** @var \andrew72ru\user\Module */
     protected $module;
+
+    /**
+     * @inheritdoc
+     */
+    public static function collectionName()
+    {
+        return ['autoglass', 'profile'];
+    }
 
     /** @inheritdoc */
     public function init()
     {
         $this->module = \Yii::$app->getModule('user');
+    }
+
+    /**
+     * @@inheritdoc
+     */
+    public function attributes()
+    {
+        return [
+            '_id',
+            'id',
+            'user_id',
+            'name',
+            'public_email',
+            'gravatar_email',
+            'gravatar_id',
+            'location',
+            'website',
+            'bio',
+            'timezone',
+        ];
     }
 
     /**
@@ -57,7 +86,17 @@ class Profile extends ActiveRecord
      */
     public function getUser()
     {
-        return $this->hasOne($this->module->modelMap['User'], ['id' => 'user_id']);
+        return $this->hasOne($this->module->modelMap['User'], ['_id' => 'user_id']);
+    }
+
+    public function beforeValidate()
+    {
+        if($this->isNewRecord)
+            $this->id = (int) self::find()->max('id') + 1;
+
+        $this->id = (int) $this->id;
+
+        return parent::beforeValidate();
     }
 
     /**
@@ -66,16 +105,17 @@ class Profile extends ActiveRecord
     public function rules()
     {
         return [
-            'bioString'            => ['bio', 'string'],
-            'timeZoneValidation'   => ['timezone', 'validateTimeZone'],
-            'publicEmailPattern'   => ['public_email', 'email'],
+            'bioString' => ['bio', 'string'],
+            'timeZoneValidation' => ['timezone', 'validateTimeZone'],
+            'publicEmailPattern' => ['public_email', 'email'],
             'gravatarEmailPattern' => ['gravatar_email', 'email'],
-            'websiteUrl'           => ['website', 'url'],
-            'nameLength'           => ['name', 'string', 'max' => 255],
-            'publicEmailLength'    => ['public_email', 'string', 'max' => 255],
-            'gravatarEmailLength'  => ['gravatar_email', 'string', 'max' => 255],
-            'locationLength'       => ['location', 'string', 'max' => 255],
-            'websiteLength'        => ['website', 'string', 'max' => 255],
+            'websiteUrl' => ['website', 'url'],
+            'nameLength' => ['name', 'string', 'max' => 255],
+            'publicEmailLength' => ['public_email', 'string', 'max' => 255],
+            'gravatarEmailLength' => ['gravatar_email', 'string', 'max' => 255],
+            'locationLength' => ['location', 'string', 'max' => 255],
+            'websiteLength' => ['website', 'string', 'max' => 255],
+            'id' => ['id', 'integer']
         ];
     }
 
@@ -85,13 +125,13 @@ class Profile extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'name'           => \Yii::t('user', 'Name'),
-            'public_email'   => \Yii::t('user', 'Email (public)'),
+            'name' => \Yii::t('user', 'Name'),
+            'public_email' => \Yii::t('user', 'Email (public)'),
             'gravatar_email' => \Yii::t('user', 'Gravatar email'),
-            'location'       => \Yii::t('user', 'Location'),
-            'website'        => \Yii::t('user', 'Website'),
-            'bio'            => \Yii::t('user', 'Bio'),
-            'timezone'       => \Yii::t('user', 'Time zone'),
+            'location' => \Yii::t('user', 'Location'),
+            'website' => \Yii::t('user', 'Website'),
+            'bio' => \Yii::t('user', 'Bio'),
+            'timezone' => \Yii::t('user', 'Time zone'),
         ];
     }
 
@@ -103,23 +143,9 @@ class Profile extends ActiveRecord
      */
     public function validateTimeZone($attribute, $params)
     {
-        if (!in_array($this->$attribute, timezone_identifiers_list())) {
+        if (!in_array($this->$attribute, timezone_identifiers_list()))
+        {
             $this->addError($attribute, \Yii::t('user', 'Time zone is not valid'));
-        }
-    }
-
-    /**
-     * Get the user's time zone.
-     * Defaults to the application timezone if not specified by the user.
-     * @return \DateTimeZone
-     */
-    public function getTimeZone()
-    {
-        try {
-            return new \DateTimeZone($this->timezone);
-        } catch (\Exception $e) {
-            // Default to application time zone if the user hasn't set their time zone
-            return new \DateTimeZone(\Yii::$app->timeZone);
         }
     }
 
@@ -139,7 +165,8 @@ class Profile extends ActiveRecord
      */
     public function toLocalTime(\DateTime $dateTime = null)
     {
-        if ($dateTime === null) {
+        if ($dateTime === null)
+        {
             $dateTime = new \DateTime();
         }
 
@@ -147,22 +174,33 @@ class Profile extends ActiveRecord
     }
 
     /**
+     * Get the user's time zone.
+     * Defaults to the application timezone if not specified by the user.
+     * @return \DateTimeZone
+     */
+    public function getTimeZone()
+    {
+        try
+        {
+            return new \DateTimeZone($this->timezone);
+        } catch (\Exception $e)
+        {
+            // Default to application time zone if the user hasn't set their time zone
+            return new \DateTimeZone(\Yii::$app->timeZone);
+        }
+    }
+
+    /**
      * @inheritdoc
      */
     public function beforeSave($insert)
     {
-        if ($this->isAttributeChanged('gravatar_email')) {
+        if ($this->isAttributeChanged('gravatar_email'))
+        {
             $this->setAttribute('gravatar_id', md5(strtolower(trim($this->getAttribute('gravatar_email')))));
         }
 
         return parent::beforeSave($insert);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public static function tableName()
-    {
-        return '{{%profile}}';
-    }
 }

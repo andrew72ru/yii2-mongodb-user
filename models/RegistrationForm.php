@@ -9,11 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace dektrium\user\models;
+namespace andrew72ru\user\models;
 
-use dektrium\user\traits\ModuleTrait;
-use Yii;
+use andrew72ru\user\traits\ModuleTrait;
 use yii\base\Model;
+use Yii;
 
 /**
  * Registration form collects user input on registration process, validates it and creates new User model.

@@ -9,13 +9,13 @@
  * file that was distributed with this source code.
  */
 
-namespace dektrium\user;
+namespace andrew72ru\user;
 
-use dektrium\user\models\query\AccountQuery;
-use dektrium\user\models\Token;
+use andrew72ru\user\models\query\AccountQuery;
+use andrew72ru\user\models\Token;
 use yii\authclient\ClientInterface;
 use yii\base\Object;
-use yii\db\ActiveQuery;
+use yii\mongodb\ActiveQuery;
 
 /**
  * Finder provides some useful methods for finding active record models.
@@ -101,7 +101,7 @@ class Finder extends Object
      */
     public function findUserById($id)
     {
-        return $this->findUser(['id' => $id])->one();
+        return $this->findUser(['_id' => $id])->one();
     }
 
     /**

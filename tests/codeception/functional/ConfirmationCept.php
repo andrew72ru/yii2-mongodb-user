@@ -1,6 +1,6 @@
 <?php
 
-use dektrium\user\tests\FunctionalTester;
+use andrew72ru\user\tests\FunctionalTester;
 use yii\helpers\Url;
 
 $I = new FunctionalTester($scenario);

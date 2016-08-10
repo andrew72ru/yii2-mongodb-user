@@ -1,14 +1,14 @@
 <?php
 
-namespace dektrium\user\tests;
+namespace andrew72ru\user\tests;
 
 use AspectMock\Test as test;
 use Codeception\Specify;
-use dektrium\user\Finder;
-use dektrium\user\Mailer;
-use dektrium\user\models\RecoveryForm;
-use dektrium\user\models\Token;
-use dektrium\user\models\User;
+use andrew72ru\user\Finder;
+use andrew72ru\user\Mailer;
+use andrew72ru\user\models\RecoveryForm;
+use andrew72ru\user\models\Token;
+use andrew72ru\user\models\User;
 use Yii;
 use yii\codeception\TestCase;
 use yii\db\ActiveQuery;

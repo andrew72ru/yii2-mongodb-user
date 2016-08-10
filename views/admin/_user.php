@@ -11,7 +11,7 @@
 
 /**
  * @var yii\widgets\ActiveForm      $form
- * @var dektrium\user\models\User   $user
+ * @var andrew72ru\user\models\User   $user
  */
 ?>
 

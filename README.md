@@ -2,13 +2,25 @@
 
 This is a fork of https://github.com/dektrium/yii2-user by Dektrium!
 
-> **NOTE:** Module is in initial development. Anything may change at any time.
+# ATTENTION!
 
+Module in deep alfa-mode. **DO NOT** use it in production!
 
 Installation
 ------------
 
 The preferred way to install this extension is through [composer](http://getcomposer.org/download/).
+
+Add to you `composer.json` :
+
+```
+"repositories": [
+{
+  "type": "git",
+  "url": "git@github.com:andrew72ru/yii2-mongodb-user.git"
+}
+]
+```
 
 Either run
 

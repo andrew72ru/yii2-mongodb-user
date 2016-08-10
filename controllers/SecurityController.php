@@ -9,15 +9,15 @@
  * file that was distributed with this source code.
  */
 
-namespace dektrium\user\controllers;
+namespace andrew72ru\user\controllers;
 
-use dektrium\user\Finder;
-use dektrium\user\models\Account;
-use dektrium\user\models\LoginForm;
-use dektrium\user\models\User;
-use dektrium\user\Module;
-use dektrium\user\traits\AjaxValidationTrait;
-use dektrium\user\traits\EventTrait;
+use andrew72ru\user\Finder;
+use andrew72ru\user\models\Account;
+use andrew72ru\user\models\LoginForm;
+use andrew72ru\user\models\User;
+use andrew72ru\user\Module;
+use andrew72ru\user\traits\AjaxValidationTrait;
+use andrew72ru\user\traits\EventTrait;
 use yii\authclient\AuthAction;
 use yii\authclient\ClientInterface;
 use yii\filters\AccessControl;
@@ -40,49 +40,49 @@ class SecurityController extends Controller
 
     /**
      * Event is triggered before logging user in.
-     * Triggered with \dektrium\user\events\FormEvent.
+     * Triggered with \andrew72ru\user\events\FormEvent.
      */
     const EVENT_BEFORE_LOGIN = 'beforeLogin';
 
     /**
      * Event is triggered after logging user in.
-     * Triggered with \dektrium\user\events\FormEvent.
+     * Triggered with \andrew72ru\user\events\FormEvent.
      */
     const EVENT_AFTER_LOGIN = 'afterLogin';
 
     /**
      * Event is triggered before logging user out.
-     * Triggered with \dektrium\user\events\UserEvent.
+     * Triggered with \andrew72ru\user\events\UserEvent.
      */
     const EVENT_BEFORE_LOGOUT = 'beforeLogout';
 
     /**
      * Event is triggered after logging user out.
-     * Triggered with \dektrium\user\events\UserEvent.
+     * Triggered with \andrew72ru\user\events\UserEvent.
      */
     const EVENT_AFTER_LOGOUT = 'afterLogout';
 
     /**
      * Event is triggered before authenticating user via social network.
-     * Triggered with \dektrium\user\events\AuthEvent.
+     * Triggered with \andrew72ru\user\events\AuthEvent.
      */
     const EVENT_BEFORE_AUTHENTICATE = 'beforeAuthenticate';
 
     /**
      * Event is triggered after authenticating user via social network.
-     * Triggered with \dektrium\user\events\AuthEvent.
+     * Triggered with \andrew72ru\user\events\AuthEvent.
      */
     const EVENT_AFTER_AUTHENTICATE = 'afterAuthenticate';
 
     /**
      * Event is triggered before connecting social network account to user.
-     * Triggered with \dektrium\user\events\AuthEvent.
+     * Triggered with \andrew72ru\user\events\AuthEvent.
      */
     const EVENT_BEFORE_CONNECT = 'beforeConnect';
 
     /**
      * Event is triggered before connecting social network account to user.
-     * Triggered with \dektrium\user\events\AuthEvent.
+     * Triggered with \andrew72ru\user\events\AuthEvent.
      */
     const EVENT_AFTER_CONNECT = 'afterConnect';
 
@@ -94,7 +94,7 @@ class SecurityController extends Controller
      * @param string $id
      * @param Module $module
      * @param Finder $finder
-     * @param array  $config
+     * @param array $config
      */
     public function __construct($id, $module, Finder $finder, $config = [])
     {
@@ -144,7 +144,8 @@ class SecurityController extends Controller
      */
     public function actionLogin()
     {
-        if (!\Yii::$app->user->isGuest) {
+        if (!\Yii::$app->user->isGuest)
+        {
             $this->goHome();
         }
 
@@ -155,13 +156,14 @@ class SecurityController extends Controller
         $this->performAjaxValidation($model);
         $this->trigger(self::EVENT_BEFORE_LOGIN, $event);
 
-        if ($model->load(\Yii::$app->getRequest()->post()) && $model->login()) {
+        if ($model->load(\Yii::$app->getRequest()->post()) && $model->login())
+        {
             $this->trigger(self::EVENT_AFTER_LOGIN, $event);
-            return $this->goBack();
+//            return $this->goBack();
         }
 
         return $this->render('login', [
-            'model'  => $model,
+            'model' => $model,
             'module' => $this->module,
         ]);
     }
@@ -195,13 +197,15 @@ class SecurityController extends Controller
     {
         $account = $this->finder->findAccount()->byClient($client)->one();
 
-        if (!$this->module->enableRegistration && ($account === null || $account->user === null)) {
+        if (!$this->module->enableRegistration && ($account === null || $account->user === null))
+        {
             \Yii::$app->session->setFlash('danger', \Yii::t('user', 'Registration on this website is disabled'));
             $this->action->successUrl = Url::to(['/user/security/login']);
             return;
         }
 
-        if ($account === null) {
+        if ($account === null)
+        {
             /** @var Account $account */
             $accountObj = \Yii::createObject(Account::className());
             $account = $accountObj::create($client);
@@ -211,15 +215,19 @@ class SecurityController extends Controller
 
         $this->trigger(self::EVENT_BEFORE_AUTHENTICATE, $event);
 
-        if ($account->user instanceof User) {
-            if ($account->user->isBlocked) {
+        if ($account->user instanceof User)
+        {
+            if ($account->user->isBlocked)
+            {
                 \Yii::$app->session->setFlash('danger', \Yii::t('user', 'Your account has been blocked.'));
                 $this->action->successUrl = Url::to(['/user/security/login']);
-            } else {
+            } else
+            {
                 \Yii::$app->user->login($account->user, $this->module->rememberFor);
                 $this->action->successUrl = \Yii::$app->getUser()->getReturnUrl();
             }
-        } else {
+        } else
+        {
             $this->action->successUrl = $account->getConnectUrl();
         }
 
@@ -235,7 +243,7 @@ class SecurityController extends Controller
     {
         /** @var Account $account */
         $account = \Yii::createObject(Account::className());
-        $event   = $this->getAuthEvent($account, $client);
+        $event = $this->getAuthEvent($account, $client);
 
         $this->trigger(self::EVENT_BEFORE_CONNECT, $event);
 

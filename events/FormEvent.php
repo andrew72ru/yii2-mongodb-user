@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace dektrium\user\events;
+namespace andrew72ru\user\events;
 
 use yii\base\Event;
 use yii\base\Model;

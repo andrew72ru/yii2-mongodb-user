@@ -13,7 +13,7 @@ use dektrium\rbac\widgets\Assignments;
 
 /**
  * @var yii\web\View                $this
- * @var dektrium\user\models\User   $user
+ * @var andrew72ru\user\models\User   $user
  */
 
 ?>

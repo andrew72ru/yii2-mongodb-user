@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace dektrium\user\filters;
+namespace andrew72ru\user\filters;
 
 use yii\base\ActionFilter;
 use yii\web\NotFoundHttpException;

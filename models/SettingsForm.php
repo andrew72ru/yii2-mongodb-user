@@ -9,14 +9,14 @@
  * file that was distributed with this source code.
  */
 
-namespace dektrium\user\models;
+namespace andrew72ru\user\models;
 
-use dektrium\user\helpers\Password;
-use dektrium\user\Mailer;
-use dektrium\user\Module;
-use dektrium\user\traits\ModuleTrait;
-use Yii;
+use andrew72ru\user\helpers\Password;
+use andrew72ru\user\Mailer;
+use andrew72ru\user\Module;
+use andrew72ru\user\traits\ModuleTrait;
 use yii\base\Model;
+use Yii;
 
 /**
  * SettingsForm gets user's username, email and password and changes them.

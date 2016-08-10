@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace dektrium\user\migrations;
+namespace andrew72ru\user\migrations;
 
 use Yii;
 

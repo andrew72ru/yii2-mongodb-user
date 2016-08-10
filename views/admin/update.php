@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-use dektrium\user\models\User;
+use andrew72ru\user\models\User;
 use yii\bootstrap\Nav;
 use yii\web\View;
 

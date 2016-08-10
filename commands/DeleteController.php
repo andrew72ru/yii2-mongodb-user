@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace dektrium\user\commands;
+namespace andrew72ru\user\commands;
 
-use dektrium\user\Finder;
+use andrew72ru\user\Finder;
 use Yii;
 use yii\console\Controller;
 use yii\helpers\Console;
@@ -19,7 +19,7 @@ use yii\helpers\Console;
 /**
  * Deletes a user.
  *
- * @property \dektrium\user\Module $module
+ * @property \andrew72ru\user\Module $module
  *
  * @author Dmitry Erofeev <dmeroff@gmail.com>
  */

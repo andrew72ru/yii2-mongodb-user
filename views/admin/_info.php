@@ -11,7 +11,7 @@
 
 /**
  * @var yii\web\View
- * @var dektrium\user\models\User
+ * @var andrew72ru\user\models\User
  */
 ?>
 

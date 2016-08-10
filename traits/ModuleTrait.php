@@ -1,14 +1,14 @@
 <?php
 
 
-namespace dektrium\user\traits;
+namespace andrew72ru\user\traits;
 
-use dektrium\user\Module;
+use andrew72ru\user\Module;
 
 /**
  * Trait ModuleTrait
  * @property-read Module $module
- * @package dektrium\user\traits
+ * @package andrew72ru\user\traits
  */
 trait ModuleTrait
 {

@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace dektrium\user;
+namespace andrew72ru\user;
 
-use dektrium\user\models\Token;
-use dektrium\user\models\User;
+use andrew72ru\user\models\Token;
+use andrew72ru\user\models\User;
 use Yii;
 use yii\base\Component;
 
@@ -24,7 +24,7 @@ use yii\base\Component;
 class Mailer extends Component
 {
     /** @var string */
-    public $viewPath = '@dektrium/user/views/mail';
+    public $viewPath = '@andrew72ru/user/views/mail';
 
     /** @var string|array Default: `Yii::$app->params['adminEmail']` OR `no-reply@example.com` */
     public $sender;
@@ -41,7 +41,7 @@ class Mailer extends Component
     /** @var string */
     protected $recoverySubject;
 
-    /** @var \dektrium\user\Module */
+    /** @var \andrew72ru\user\Module */
     protected $module;
 
     /**

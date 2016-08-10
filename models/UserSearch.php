@@ -9,12 +9,12 @@
  * file that was distributed with this source code.
  */
 
-namespace dektrium\user\models;
+namespace andrew72ru\user\models;
 
-use dektrium\user\Finder;
-use Yii;
+use andrew72ru\user\Finder;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
+use Yii;
 
 /**
  * UserSearch represents the model behind the search form about User.

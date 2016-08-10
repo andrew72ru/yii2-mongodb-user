@@ -9,15 +9,15 @@
  * file that was distributed with this source code.
  */
 
-namespace dektrium\user\controllers;
+namespace andrew72ru\user\controllers;
 
-use dektrium\user\filters\AccessRule;
-use dektrium\user\Finder;
-use dektrium\user\models\Profile;
-use dektrium\user\models\User;
-use dektrium\user\models\UserSearch;
-use dektrium\user\Module;
-use dektrium\user\traits\EventTrait;
+use andrew72ru\user\filters\AccessRule;
+use andrew72ru\user\Finder;
+use andrew72ru\user\models\Profile;
+use andrew72ru\user\models\User;
+use andrew72ru\user\models\UserSearch;
+use andrew72ru\user\Module;
+use andrew72ru\user\traits\EventTrait;
 use yii\base\ExitException;
 use yii\base\Model;
 use yii\base\Module as Module2;
@@ -42,85 +42,85 @@ class AdminController extends Controller
 
     /**
      * Event is triggered before creating new user.
-     * Triggered with \dektrium\user\events\UserEvent.
+     * Triggered with \andrew72ru\user\events\UserEvent.
      */
     const EVENT_BEFORE_CREATE = 'beforeCreate';
 
     /**
      * Event is triggered after creating new user.
-     * Triggered with \dektrium\user\events\UserEvent.
+     * Triggered with \andrew72ru\user\events\UserEvent.
      */
     const EVENT_AFTER_CREATE = 'afterCreate';
 
     /**
      * Event is triggered before updating existing user.
-     * Triggered with \dektrium\user\events\UserEvent.
+     * Triggered with \andrew72ru\user\events\UserEvent.
      */
     const EVENT_BEFORE_UPDATE = 'beforeUpdate';
 
     /**
      * Event is triggered after updating existing user.
-     * Triggered with \dektrium\user\events\UserEvent.
+     * Triggered with \andrew72ru\user\events\UserEvent.
      */
     const EVENT_AFTER_UPDATE = 'afterUpdate';
 
     /**
      * Event is triggered before updating existing user's profile.
-     * Triggered with \dektrium\user\events\UserEvent.
+     * Triggered with \andrew72ru\user\events\UserEvent.
      */
     const EVENT_BEFORE_PROFILE_UPDATE = 'beforeProfileUpdate';
 
     /**
      * Event is triggered after updating existing user's profile.
-     * Triggered with \dektrium\user\events\UserEvent.
+     * Triggered with \andrew72ru\user\events\UserEvent.
      */
     const EVENT_AFTER_PROFILE_UPDATE = 'afterProfileUpdate';
 
     /**
      * Event is triggered before confirming existing user.
-     * Triggered with \dektrium\user\events\UserEvent.
+     * Triggered with \andrew72ru\user\events\UserEvent.
      */
     const EVENT_BEFORE_CONFIRM = 'beforeConfirm';
 
     /**
      * Event is triggered after confirming existing user.
-     * Triggered with \dektrium\user\events\UserEvent.
+     * Triggered with \andrew72ru\user\events\UserEvent.
      */
     const EVENT_AFTER_CONFIRM = 'afterConfirm';
 
     /**
      * Event is triggered before deleting existing user.
-     * Triggered with \dektrium\user\events\UserEvent.
+     * Triggered with \andrew72ru\user\events\UserEvent.
      */
     const EVENT_BEFORE_DELETE = 'beforeDelete';
 
     /**
      * Event is triggered after deleting existing user.
-     * Triggered with \dektrium\user\events\UserEvent.
+     * Triggered with \andrew72ru\user\events\UserEvent.
      */
     const EVENT_AFTER_DELETE = 'afterDelete';
 
     /**
      * Event is triggered before blocking existing user.
-     * Triggered with \dektrium\user\events\UserEvent.
+     * Triggered with \andrew72ru\user\events\UserEvent.
      */
     const EVENT_BEFORE_BLOCK = 'beforeBlock';
 
     /**
      * Event is triggered after blocking existing user.
-     * Triggered with \dektrium\user\events\UserEvent.
+     * Triggered with \andrew72ru\user\events\UserEvent.
      */
     const EVENT_AFTER_BLOCK = 'afterBlock';
 
     /**
      * Event is triggered before unblocking existing user.
-     * Triggered with \dektrium\user\events\UserEvent.
+     * Triggered with \andrew72ru\user\events\UserEvent.
      */
     const EVENT_BEFORE_UNBLOCK = 'beforeUnblock';
 
     /**
      * Event is triggered after unblocking existing user.
-     * Triggered with \dektrium\user\events\UserEvent.
+     * Triggered with \andrew72ru\user\events\UserEvent.
      */
     const EVENT_AFTER_UNBLOCK = 'afterUnblock';
 

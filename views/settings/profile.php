@@ -14,7 +14,7 @@ use yii\helpers\Html;
 /**
  * @var yii\web\View $this
  * @var yii\widgets\ActiveForm $form
- * @var dektrium\user\models\Profile $profile
+ * @var andrew72ru\user\models\Profile $profile
  */
 
 $this->title = Yii::t('user', 'Profile settings');
@@ -57,7 +57,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     ->field($model, 'timezone')
                     ->dropDownList(
                         \yii\helpers\ArrayHelper::map(
-                            \dektrium\user\helpers\Timezone::getAll(),
+                            \andrew72ru\user\helpers\Timezone::getAll(),
                             'timezone',
                             'name'
                         )

@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace dektrium\user\helpers;
+namespace andrew72ru\user\helpers;
 
 use Yii;
 

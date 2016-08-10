@@ -5,7 +5,7 @@
     "type": "yii2-extension",
     "license": "MIT",
     "support": {
-        "source": "https://github.com/andrew72ru/yii2-user"
+        "source": "https://github.com/andrew72ru/yii2-mongodb-user"
     },
     "authors": [
         {

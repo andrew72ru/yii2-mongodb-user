@@ -1,8 +1,8 @@
 <?php
 
-use dektrium\user\tests\FunctionalTester;
-use dektrium\user\models\Token;
-use dektrium\user\models\User;
+use andrew72ru\user\tests\FunctionalTester;
+use andrew72ru\user\models\Token;
+use andrew72ru\user\models\User;
 use tests\codeception\_pages\LoginPage;
 use tests\codeception\_pages\SettingsPage;
 use yii\helpers\Html;

@@ -1,15 +1,6 @@
 <?php
 
-/*
- * This file is part of the Dektrium project.
- *
- * (c) Dektrium project <http://github.com/dektrium/>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
-namespace dektrium\user;
+namespace andrew72ru\user;
 
 use Yii;
 use yii\authclient\Collection;
@@ -27,16 +18,16 @@ class Bootstrap implements BootstrapInterface
 {
     /** @var array Model's map */
     private $_modelMap = [
-        'User'             => 'dektrium\user\models\User',
-        'Account'          => 'dektrium\user\models\Account',
-        'Profile'          => 'dektrium\user\models\Profile',
-        'Token'            => 'dektrium\user\models\Token',
-        'RegistrationForm' => 'dektrium\user\models\RegistrationForm',
-        'ResendForm'       => 'dektrium\user\models\ResendForm',
-        'LoginForm'        => 'dektrium\user\models\LoginForm',
-        'SettingsForm'     => 'dektrium\user\models\SettingsForm',
-        'RecoveryForm'     => 'dektrium\user\models\RecoveryForm',
-        'UserSearch'       => 'dektrium\user\models\UserSearch',
+        'User' => 'andrew72ru\user\models\User',
+        'Account' => 'andrew72ru\user\models\Account',
+        'Profile' => 'andrew72ru\user\models\Profile',
+        'Token' => 'andrew72ru\user\models\Token',
+        'RegistrationForm' => 'andrew72ru\user\models\RegistrationForm',
+        'ResendForm' => 'andrew72ru\user\models\ResendForm',
+        'LoginForm' => 'andrew72ru\user\models\LoginForm',
+        'SettingsForm' => 'andrew72ru\user\models\SettingsForm',
+        'RecoveryForm' => 'andrew72ru\user\models\RecoveryForm',
+        'UserSearch' => 'andrew72ru\user\models\UserSearch',
     ];
 
     /** @inheritdoc */
@@ -44,65 +35,74 @@ class Bootstrap implements BootstrapInterface
     {
         /** @var Module $module */
         /** @var \yii\db\ActiveRecord $modelName */
-        if ($app->hasModule('user') && ($module = $app->getModule('user')) instanceof Module) {
+        if ($app->hasModule('user') && ($module = $app->getModule('user')) instanceof Module)
+        {
             $this->_modelMap = array_merge($this->_modelMap, $module->modelMap);
-            foreach ($this->_modelMap as $name => $definition) {
+            foreach ($this->_modelMap as $name => $definition)
+            {
                 $class = "dektrium\\user\\models\\" . $name;
                 Yii::$container->set($class, $definition);
                 $modelName = is_array($definition) ? $definition['class'] : $definition;
                 $module->modelMap[$name] = $modelName;
-                if (in_array($name, ['User', 'Profile', 'Token', 'Account'])) {
-                    Yii::$container->set($name . 'Query', function () use ($modelName) {
+                if (in_array($name, ['User', 'Profile', 'Token', 'Account']))
+                {
+                    Yii::$container->set($name . 'Query', function () use ($modelName)
+                    {
                         return $modelName::find();
                     });
                 }
             }
             Yii::$container->setSingleton(Finder::className(), [
-                'userQuery'    => Yii::$container->get('UserQuery'),
+                'userQuery' => Yii::$container->get('UserQuery'),
                 'profileQuery' => Yii::$container->get('ProfileQuery'),
-                'tokenQuery'   => Yii::$container->get('TokenQuery'),
+                'tokenQuery' => Yii::$container->get('TokenQuery'),
                 'accountQuery' => Yii::$container->get('AccountQuery'),
             ]);
 
-            if ($app instanceof ConsoleApplication) {
-                $module->controllerNamespace = 'dektrium\user\commands';
-            } else {
+            if ($app instanceof ConsoleApplication)
+            {
+                $module->controllerNamespace = 'andrew72ru\user\commands';
+            } else
+            {
                 Yii::$container->set('yii\web\User', [
                     'enableAutoLogin' => true,
-                    'loginUrl'        => ['/user/security/login'],
-                    'identityClass'   => $module->modelMap['User'],
+                    'loginUrl' => ['/user/security/login'],
+                    'identityClass' => $module->modelMap['User'],
                 ]);
 
                 $configUrlRule = [
                     'prefix' => $module->urlPrefix,
-                    'rules'  => $module->urlRules,
+                    'rules' => $module->urlRules,
                 ];
 
-                if ($module->urlPrefix != 'user') {
+                if ($module->urlPrefix != 'user')
+                {
                     $configUrlRule['routePrefix'] = 'user';
                 }
 
                 $configUrlRule['class'] = 'yii\web\GroupUrlRule';
                 $rule = Yii::createObject($configUrlRule);
-                
+
                 $app->urlManager->addRules([$rule], false);
 
-                if (!$app->has('authClientCollection')) {
+                if (!$app->has('authClientCollection'))
+                {
                     $app->set('authClientCollection', [
                         'class' => Collection::className(),
                     ]);
                 }
             }
 
-            if (!isset($app->get('i18n')->translations['user*'])) {
+            if (!isset($app->get('i18n')->translations['user*']))
+            {
                 $app->get('i18n')->translations['user*'] = [
-                    'class'    => PhpMessageSource::className(),
+                    'class' => PhpMessageSource::className(),
                     'basePath' => __DIR__ . '/messages',
                     'sourceLanguage' => 'en-US'
                 ];
             }
 
-            Yii::$container->set('dektrium\user\Mailer', $module->mailer);
+            Yii::$container->set('andrew72ru\user\Mailer', $module->mailer);
         }
     }
 }

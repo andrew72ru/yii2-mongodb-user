@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace dektrium\user\clients;
+namespace andrew72ru\user\clients;
 
 use yii\authclient\clients\Facebook as BaseFacebook;
 

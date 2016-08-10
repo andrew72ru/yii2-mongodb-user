@@ -9,11 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace dektrium\user\models\query;
+namespace andrew72ru\user\models\query;
 
-use dektrium\user\models\Account;
+use andrew72ru\user\models\Account;
 use yii\authclient\ClientInterface;
-use yii\db\ActiveQuery;
+use yii\mongodb\ActiveQuery;
 
 /**
  * @method Account|null one($db = null)
@@ -40,7 +40,7 @@ class AccountQuery extends ActiveQuery
      */
     public function byId($id)
     {
-        return $this->andWhere(['id' => $id]);
+        return $this->andWhere(['_id' => $id]);
     }
 
     /**
