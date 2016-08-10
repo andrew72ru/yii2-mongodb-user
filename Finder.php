@@ -101,7 +101,7 @@ class Finder extends Object
      */
     public function findUserById($id)
     {
-        return $this->findUser(['_id' => $id])->one();
+        return $this->findUser(['_id' => self::createMongoId($id)])->one();
     }
 
     /**

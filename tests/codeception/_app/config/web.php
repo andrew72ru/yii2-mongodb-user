@@ -8,7 +8,7 @@ $config = [
     ],
     'extensions' => require(VENDOR_DIR.'/yiisoft/extensions.php'),
     'aliases' => [
-        '@dektrium/user' => realpath(__DIR__.'/../../../../'),
+        '@andrew72ru/user' => realpath(__DIR__.'/../../../../'),
         '@vendor'        => VENDOR_DIR,
         '@bower'         => VENDOR_DIR.'/bower',
         '@tests/codeception/config' => '@tests/codeception/_config',

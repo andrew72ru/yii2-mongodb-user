@@ -22,4 +22,4 @@ $_SERVER['SCRIPT_NAME']     = YII_TEST_ENTRY_URL;
 $_SERVER['SERVER_NAME']     = 'localhost';
 
 Yii::setAlias('@tests', dirname(__DIR__));
-Yii::setAlias('@dektrium/user', realpath(__DIR__.'..'));
+Yii::setAlias('@andrew72ru/user', realpath(__DIR__.'..'));

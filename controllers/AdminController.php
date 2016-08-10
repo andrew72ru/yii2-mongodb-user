@@ -128,10 +128,10 @@ class AdminController extends Controller
     protected $finder;
 
     /**
-     * @param string  $id
+     * @param string $id
      * @param Module2 $module
-     * @param Finder  $finder
-     * @param array   $config
+     * @param Finder $finder
+     * @param array $config
      */
     public function __construct($id, $module, Finder $finder, $config = [])
     {
@@ -146,9 +146,9 @@ class AdminController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete'  => ['post'],
+                    'delete' => ['post'],
                     'confirm' => ['post'],
-                    'block'   => ['post'],
+                    'block' => ['post'],
                 ],
             ],
             'access' => [
@@ -174,12 +174,12 @@ class AdminController extends Controller
     public function actionIndex()
     {
         Url::remember('', 'actions-redirect');
-        $searchModel  = \Yii::createObject(UserSearch::className());
+        $searchModel = \Yii::createObject(UserSearch::className());
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,
-            'searchModel'  => $searchModel,
+            'searchModel' => $searchModel,
         ]);
     }
 
@@ -193,7 +193,7 @@ class AdminController extends Controller
     {
         /** @var User $user */
         $user = \Yii::createObject([
-            'class'    => User::className(),
+            'class' => User::className(),
             'scenario' => 'create',
         ]);
         $event = $this->getUserEvent($user);
@@ -201,15 +201,36 @@ class AdminController extends Controller
         $this->performAjaxValidation($user);
 
         $this->trigger(self::EVENT_BEFORE_CREATE, $event);
-        if ($user->load(\Yii::$app->request->post()) && $user->create()) {
+        if ($user->load(\Yii::$app->request->post()) && $user->create())
+        {
             \Yii::$app->getSession()->setFlash('success', \Yii::t('user', 'User has been created'));
             $this->trigger(self::EVENT_AFTER_CREATE, $event);
-            return $this->redirect(['update', 'id' => $user->id]);
+            return $this->redirect(['update', 'id' => (string)$user->_id]);
         }
 
         return $this->render('create', [
             'user' => $user,
         ]);
+    }
+
+    /**
+     * Performs AJAX validation.
+     *
+     * @param array|Model $model
+     *
+     * @throws ExitException
+     */
+    protected function performAjaxValidation($model)
+    {
+        if (\Yii::$app->request->isAjax && !\Yii::$app->request->isPjax)
+        {
+            if ($model->load(\Yii::$app->request->post()))
+            {
+                \Yii::$app->response->format = Response::FORMAT_JSON;
+                echo json_encode(ActiveForm::validate($model));
+                \Yii::$app->end();
+            }
+        }
     }
 
     /**
@@ -229,7 +250,8 @@ class AdminController extends Controller
         $this->performAjaxValidation($user);
 
         $this->trigger(self::EVENT_BEFORE_UPDATE, $event);
-        if ($user->load(\Yii::$app->request->post()) && $user->save()) {
+        if ($user->load(\Yii::$app->request->post()) && $user->save())
+        {
             \Yii::$app->getSession()->setFlash('success', \Yii::t('user', 'Account details have been updated'));
             $this->trigger(self::EVENT_AFTER_UPDATE, $event);
             return $this->refresh();
@@ -238,6 +260,26 @@ class AdminController extends Controller
         return $this->render('_account', [
             'user' => $user,
         ]);
+    }
+
+    /**
+     * Finds the User model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     *
+     * @param int $id
+     *
+     * @return User the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findModel($id)
+    {
+        $user = $this->finder->findUserById($id);
+        if ($user === null)
+        {
+            throw new NotFoundHttpException('The requested page does not exist');
+        }
+
+        return $user;
     }
 
     /**
@@ -250,27 +292,29 @@ class AdminController extends Controller
     public function actionUpdateProfile($id)
     {
         Url::remember('', 'actions-redirect');
-        $user    = $this->findModel($id);
+        $user = $this->findModel($id);
         $profile = $user->profile;
 
-        if ($profile == null) {
+        if ($profile == null)
+        {
             $profile = \Yii::createObject(Profile::className());
             $profile->link('user', $user);
         }
-        $event   = $this->getProfileEvent($profile);
+        $event = $this->getProfileEvent($profile);
 
         $this->performAjaxValidation($profile);
 
         $this->trigger(self::EVENT_BEFORE_PROFILE_UPDATE, $event);
 
-        if ($profile->load(\Yii::$app->request->post()) && $profile->save()) {
+        if ($profile->load(\Yii::$app->request->post()) && $profile->save())
+        {
             \Yii::$app->getSession()->setFlash('success', \Yii::t('user', 'Profile details have been updated'));
             $this->trigger(self::EVENT_AFTER_PROFILE_UPDATE, $event);
             return $this->refresh();
         }
 
         return $this->render('_profile', [
-            'user'    => $user,
+            'user' => $user,
             'profile' => $profile,
         ]);
     }
@@ -303,7 +347,8 @@ class AdminController extends Controller
      */
     public function actionAssignments($id)
     {
-        if (!isset(\Yii::$app->extensions['dektrium/yii2-rbac'])) {
+        if ((\Yii::$app->hasModule('rbac') && \Yii::$app->getModule('rbac')->className()) != 'andrew72ru\rbac\RbacWebModule')
+        {
             throw new NotFoundHttpException();
         }
         Url::remember('', 'actions-redirect');
@@ -345,9 +390,11 @@ class AdminController extends Controller
      */
     public function actionDelete($id)
     {
-        if ($id == \Yii::$app->user->getId()) {
+        if ($id == \Yii::$app->user->getId())
+        {
             \Yii::$app->getSession()->setFlash('danger', \Yii::t('user', 'You can not remove your own account'));
-        } else {
+        } else
+        {
             $model = $this->findModel($id);
             $event = $this->getUserEvent($model);
             $this->trigger(self::EVENT_BEFORE_DELETE, $event);
@@ -368,17 +415,21 @@ class AdminController extends Controller
      */
     public function actionBlock($id)
     {
-        if ($id == \Yii::$app->user->getId()) {
+        if ($id == \Yii::$app->user->getId())
+        {
             \Yii::$app->getSession()->setFlash('danger', \Yii::t('user', 'You can not block your own account'));
-        } else {
-            $user  = $this->findModel($id);
+        } else
+        {
+            $user = $this->findModel($id);
             $event = $this->getUserEvent($user);
-            if ($user->getIsBlocked()) {
+            if ($user->getIsBlocked())
+            {
                 $this->trigger(self::EVENT_BEFORE_UNBLOCK, $event);
                 $user->unblock();
                 $this->trigger(self::EVENT_AFTER_UNBLOCK, $event);
                 \Yii::$app->getSession()->setFlash('success', \Yii::t('user', 'User has been unblocked'));
-            } else {
+            } else
+            {
                 $this->trigger(self::EVENT_BEFORE_BLOCK, $event);
                 $user->block();
                 $this->trigger(self::EVENT_AFTER_BLOCK, $event);
@@ -387,42 +438,5 @@ class AdminController extends Controller
         }
 
         return $this->redirect(Url::previous('actions-redirect'));
-    }
-
-    /**
-     * Finds the User model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     *
-     * @param int $id
-     *
-     * @return User the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        $user = $this->finder->findUserById($id);
-        if ($user === null) {
-            throw new NotFoundHttpException('The requested page does not exist');
-        }
-
-        return $user;
-    }
-
-    /**
-     * Performs AJAX validation.
-     *
-     * @param array|Model $model
-     *
-     * @throws ExitException
-     */
-    protected function performAjaxValidation($model)
-    {
-        if (\Yii::$app->request->isAjax && !\Yii::$app->request->isPjax) {
-            if ($model->load(\Yii::$app->request->post())) {
-                \Yii::$app->response->format = Response::FORMAT_JSON;
-                echo json_encode(ActiveForm::validate($model));
-                \Yii::$app->end();
-            }
-        }
     }
 }
