@@ -250,7 +250,8 @@ class User extends \yii\mongodb\ActiveRecord implements IdentityInterface
             // password rules
             'passwordRequired' =>   ['password', 'required', 'on' => ['register']],
             'passwordLength' =>     ['password', 'string', 'min' => 6, 'max' => 72, 'on' => ['register', 'create']],
-            'id' =>                 ['id', 'integer']
+            'id' =>                 ['id', 'integer'],
+            'uniqueId' =>           ['id', 'unique']
         ];
     }
 
