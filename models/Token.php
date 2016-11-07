@@ -42,7 +42,7 @@ class Token extends ActiveRecord
     /** @inheritdoc */
     public static function collectionName()
     {
-        return ['autoglass', 'account'];
+        return 'account';
     }
 
     /** @inheritdoc */

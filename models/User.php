@@ -79,7 +79,7 @@ class User extends \yii\mongodb\ActiveRecord implements IdentityInterface
     /** @inheritdoc */
     public static function collectionName()
     {
-        return ['autoglass', 'user'];
+        return 'user';
     }
 
     /** @inheritdoc */

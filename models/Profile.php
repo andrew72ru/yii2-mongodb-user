@@ -42,7 +42,7 @@ class Profile extends ActiveRecord
      */
     public static function collectionName()
     {
-        return ['autoglass', 'profile'];
+        return 'profile';
     }
 
     /** @inheritdoc */

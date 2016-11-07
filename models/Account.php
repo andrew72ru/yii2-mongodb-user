@@ -48,7 +48,7 @@ class Account extends \yii\mongodb\ActiveRecord
 
     public static function collectionName()
     {
-        return ['autoglass', 'account'];
+        return 'account';
     }
 
     /**
